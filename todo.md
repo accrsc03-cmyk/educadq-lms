@@ -105,9 +105,17 @@
 - [x] Botão de WhatsApp integrado
 
 ## Funcionalidades Avançadas
-- [ ] Tipos de curso (Livre vs MEC)
-- [ ] Portal de conteúdo (artigos, notícias, pesquisas)
-- [ ] Comentários em aulas
-- [ ] Integração MercadoPago
-- [ ] Dashboard de analytics educacional
-- [ ] Otimização para versões gratuitas (Supabase, Vercel, GitHub)
+- [x] Tipos de curso (Livre vs MEC)
+- [x] Portal de conteúdo (artigos, notícias, pesquisas)
+- [x] Comentários em aulas
+- [x] Integração MercadoPago
+- [x] Dashboard de analytics educacional
+- [x] Otimização para versões gratuitas (Supabase, Vercel, GitHub)
+
+## Implementações Finais
+- [x] Webhook MercadoPago para notificações de pagamento
+- [x] Notificações por email automáticas
+- [x] Fórum de discussão entre alunos
+- [x] Otimização de performance
+- [x] Backup automático de dados
+- [x] Guias finais de deployment

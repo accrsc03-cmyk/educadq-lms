@@ -24,6 +24,7 @@ import MaterialsManagement from "./pages/MaterialsManagement";
 import ContentPortal from "./pages/ContentPortal";
 import EducationalAnalytics from "./pages/EducationalAnalytics";
 import MercadopagoIntegration from "./pages/MercadopagoIntegration";
+import ForumPage from "./pages/ForumPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -50,6 +51,7 @@ function Router() {
       <Route path={"/content"} component={ContentPortal} />
       <Route path={"/analytics"} component={EducationalAnalytics} />
       <Route path={"/mercadopago"} component={MercadopagoIntegration} />
+      <Route path={"/forum"} component={ForumPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
