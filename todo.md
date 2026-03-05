@@ -103,3 +103,11 @@
 - [x] Entrega dos arquivos ao usuário
 - [x] Domínio personalizado (educadq-ead.com.br)
 - [x] Botão de WhatsApp integrado
+
+## Funcionalidades Avançadas
+- [ ] Tipos de curso (Livre vs MEC)
+- [ ] Portal de conteúdo (artigos, notícias, pesquisas)
+- [ ] Comentários em aulas
+- [ ] Integração MercadoPago
+- [ ] Dashboard de analytics educacional
+- [ ] Otimização para versões gratuitas (Supabase, Vercel, GitHub)
