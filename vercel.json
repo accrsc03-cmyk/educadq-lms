@@ -1,23 +1,17 @@
 {
   "buildCommand": "pnpm build",
-  "outputDirectory": "dist",
+  "outputDirectory": "dist/public",
   "devCommand": "pnpm dev",
   "env": {
     "NODE_ENV": "production"
   },
+  "serverFunctions": [
+    "api/**/*.js"
+  ],
   "functions": {
-    "dist/index.js": {
-      "runtime": "nodejs20.x"
+    "api/index.js": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 60
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/dist/index.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/dist/index.js"
-    }
-  ]
+  }
 }
