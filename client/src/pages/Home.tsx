@@ -6,10 +6,12 @@ import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import { useLocation } from "wouter";
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
   const [selectedCourse, setSelectedCourse] = useState<number | null>(null);
+  const [, setLocation] = useLocation();
 
   // Fetch courses
   const { data: courses, isLoading: coursesLoading } = trpc.courses.list.useQuery({
@@ -47,7 +49,19 @@ export default function Home() {
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
                 <span className="text-slate-300">{user?.name}</span>
-                <Button variant="outline" size="sm">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    if (user?.role === 'admin') {
+                      setLocation('/admin');
+                    } else if (user?.role === 'professor') {
+                      setLocation('/professor');
+                    } else {
+                      setLocation('/student');
+                    }
+                  }}
+                >
                   Dashboard
                 </Button>
               </div>
