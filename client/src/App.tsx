@@ -15,6 +15,12 @@ import SettingsPage from "./pages/SettingsPage";
 import LessonEditor from "./pages/LessonEditor";
 import ReportsPage from "./pages/ReportsPage";
 import CreateCoursePage from "./pages/CreateCoursePage";
+import UsersManagement from "./pages/UsersManagement";
+import PaymentsManagement from "./pages/PaymentsManagement";
+import EditCoursePage from "./pages/EditCoursePage";
+import LessonsManagement from "./pages/LessonsManagement";
+import AssessmentsManagement from "./pages/AssessmentsManagement";
+import MaterialsManagement from "./pages/MaterialsManagement";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -22,9 +28,15 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/admin"} component={AdminDashboard} />
-      <Route path={"admin/reports/:reportType"} component={ReportsPage} />
-      <Route path={"admin/courses/new"} component={CreateCoursePage} />
-      <Route path={"professor"} component={ProfessorDashboard} />
+      <Route path={"/admin/reports/:reportType"} component={ReportsPage} />
+      <Route path={"/admin/courses/new"} component={CreateCoursePage} />
+      <Route path={"/admin/courses/:courseId/edit"} component={EditCoursePage} />
+      <Route path={"/admin/users"} component={UsersManagement} />
+      <Route path={"/admin/payments"} component={PaymentsManagement} />
+      <Route path={"/professor"} component={ProfessorDashboard} />
+      <Route path={"/professor/lessons"} component={LessonsManagement} />
+      <Route path={"/professor/assessments"} component={AssessmentsManagement} />
+      <Route path={"/professor/materials"} component={MaterialsManagement} />
       <Route path={"/professor/lessons/new"} component={LessonEditor} />
       <Route path={"/professor/courses/:courseId/lessons"} component={LessonEditor} />
       <Route path={"/student"} component={StudentDashboard} />

@@ -61,11 +61,11 @@ export default function AdminDashboard() {
       <div className="container mx-auto px-4 py-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5 bg-slate-800 border border-slate-700">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-cyan-600">Visão Geral</TabsTrigger>
-            <TabsTrigger value="courses" className="data-[state=active]:bg-cyan-600">Cursos</TabsTrigger>
-            <TabsTrigger value="users" className="data-[state=active]:bg-cyan-600">Usuários</TabsTrigger>
-            <TabsTrigger value="payments" className="data-[state=active]:bg-cyan-600">Pagamentos</TabsTrigger>
-            <TabsTrigger value="reports" className="data-[state=active]:bg-cyan-600">Relatórios</TabsTrigger>
+            <TabsTrigger value="overview" className="text-white data-[state=active]:bg-cyan-600 data-[state=inactive]:text-white">Visão Geral</TabsTrigger>
+            <TabsTrigger value="courses" className="text-white data-[state=active]:bg-cyan-600 data-[state=inactive]:text-white">Cursos</TabsTrigger>
+            <TabsTrigger value="users" className="text-white data-[state=active]:bg-cyan-600 data-[state=inactive]:text-white">Usuários</TabsTrigger>
+            <TabsTrigger value="payments" className="text-white data-[state=active]:bg-cyan-600 data-[state=inactive]:text-white">Pagamentos</TabsTrigger>
+            <TabsTrigger value="reports" className="text-white data-[state=active]:bg-cyan-600 data-[state=inactive]:text-white">Relatórios</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
