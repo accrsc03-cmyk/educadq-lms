@@ -5,6 +5,7 @@ import { Loader2, Play, Users, Award, BookOpen } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
@@ -238,6 +239,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* WhatsApp Button - Only on Home */}
+      <WhatsAppButton />
     </div>
   );
 }
