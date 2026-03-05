@@ -77,11 +77,12 @@
 - [x] Relatórios de pagamentos
 
 ## Styling & UI
-- [ ] Configurar paleta de cores (Azul Meia-Noite #0D2333, Azul Turquesa #06B2C9, Branco #F5F5F5)
-- [ ] Logótipo EducaDQ na navbar
-- [ ] Design responsivo (desktop, tablet, celular, smart TV)
-- [ ] Componentes reutilizáveis
-- [ ] Temas consistentes entre painéis
+- [x] Configurar paleta de cores (Azul Meia-Noite #0D2333, Azul Turquesa #06B2C9, Branco #F5F5F5)
+- [x] Logótipo EducaDQ na navbar
+- [x] Design responsivo (desktop, tablet, celular, smart TV)
+- [x] Componentes reutilizáveis
+- [x] Temas consistentes entre painéis
+- [x] Botão flutuante de WhatsApp (41 98891-3431)
 
 ## Testing
 - [x] Testes unitários para procedures tRPC
@@ -100,3 +101,5 @@
 ## Final Delivery
 - [x] Checkpoint final do projeto
 - [x] Entrega dos arquivos ao usuário
+- [x] Domínio personalizado (educadq-ead.com.br)
+- [x] Botão de WhatsApp integrado
