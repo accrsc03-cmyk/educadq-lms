@@ -6,12 +6,26 @@ import { Loader2, Users, BookOpen, DollarSign, AlertCircle, Plus } from "lucide-
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useState } from "react";
+import UsersManagement from "./UsersManagement";
+import PaymentsManagement from "./PaymentsManagement";
 
 export default function AdminDashboard() {
   const { user, loading } = useAuth();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("overview");
 
+  // Call all hooks BEFORE any conditional returns
+  const { data: stats, isLoading: statsLoading } = trpc.admin.getStatistics.useQuery(
+    undefined,
+    { enabled: !loading && user?.role === "admin" }
+  );
+
+  const { data: courses, isLoading: coursesLoading } = trpc.courses.list.useQuery(
+    { limit: 50, offset: 0 },
+    { enabled: !loading && user?.role === "admin" }
+  );
+
+  // NOW we can do conditional returns
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -27,17 +41,6 @@ export default function AdminDashboard() {
       </div>
     );
   }
-
-  // Fetch statistics
-  const { data: stats, isLoading: statsLoading } = trpc.admin.getStatistics.useQuery(
-    undefined,
-    { enabled: !!user }
-  );
-
-  const { data: courses, isLoading: coursesLoading } = trpc.courses.list.useQuery({
-    limit: 50,
-    offset: 0,
-  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -227,68 +230,42 @@ export default function AdminDashboard() {
 
           {/* Users Tab */}
           <TabsContent value="users" className="space-y-6 mt-6">
-            <h3 className="text-xl font-bold text-white">Gerenciamento de Usuários</h3>
-            <Card className="bg-slate-800 border-slate-700">
-              <CardContent className="pt-6">
-                <p className="text-slate-400">Interface de gerenciamento de usuários em desenvolvimento...</p>
-              </CardContent>
-            </Card>
+            <UsersManagement />
           </TabsContent>
 
           {/* Payments Tab */}
           <TabsContent value="payments" className="space-y-6 mt-6">
-            <h3 className="text-xl font-bold text-white">Gerenciamento de Pagamentos</h3>
-            <Card className="bg-slate-800 border-slate-700">
-              <CardContent className="pt-6">
-                <p className="text-slate-400">Interface de gerenciamento de pagamentos em desenvolvimento...</p>
-              </CardContent>
-            </Card>
+            <PaymentsManagement />
           </TabsContent>
 
           {/* Reports Tab */}
           <TabsContent value="reports" className="space-y-6 mt-6">
             <h3 className="text-xl font-bold text-white">Relatórios</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Button
-                variant="outline"
-                className="h-24 border-slate-700 hover:border-cyan-500 text-white"
-                onClick={() => setLocation("/admin/reports/courses")}
-              >
-                <div className="text-left">
-                  <p className="font-semibold">Relatório de Cursos</p>
-                  <p className="text-xs text-slate-400">Taxa de conclusão e inscrições</p>
-                </div>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-24 border-slate-700 hover:border-cyan-500 text-white"
-                onClick={() => setLocation("/admin/reports/students")}
-              >
-                <div className="text-left">
-                  <p className="font-semibold">Relatório de Alunos</p>
-                  <p className="text-xs text-slate-400">Progresso e desempenho</p>
-                </div>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-24 border-slate-700 hover:border-cyan-500 text-white"
-                onClick={() => setLocation("/admin/reports/payments")}
-              >
-                <div className="text-left">
-                  <p className="font-semibold">Relatório de Pagamentos</p>
-                  <p className="text-xs text-slate-400">Status e atrasos</p>
-                </div>
-              </Button>
-              <Button
-                variant="outline"
-                className="h-24 border-slate-700 hover:border-cyan-500 text-white"
-                onClick={() => setLocation("/admin/reports/installments")}
-              >
-                <div className="text-left">
-                  <p className="font-semibold">Relatório de Parcelas</p>
-                  <p className="text-xs text-slate-400">Vencidas e pendentes</p>
-                </div>
-              </Button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Card className="bg-slate-800 border-slate-700 cursor-pointer hover:border-cyan-500 transition-colors" onClick={() => setLocation("/admin/reports/courses")}>
+                <CardContent className="pt-6">
+                  <h4 className="text-white font-semibold mb-2">Relatório de Cursos</h4>
+                  <p className="text-sm text-slate-400">Exportar dados de cursos em Excel</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-slate-800 border-slate-700 cursor-pointer hover:border-cyan-500 transition-colors" onClick={() => setLocation("/admin/reports/students")}>
+                <CardContent className="pt-6">
+                  <h4 className="text-white font-semibold mb-2">Relatório de Alunos</h4>
+                  <p className="text-sm text-slate-400">Exportar dados de alunos em Excel</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-slate-800 border-slate-700 cursor-pointer hover:border-cyan-500 transition-colors" onClick={() => setLocation("/admin/reports/progress")}>
+                <CardContent className="pt-6">
+                  <h4 className="text-white font-semibold mb-2">Relatório de Progresso</h4>
+                  <p className="text-sm text-slate-400">Exportar progresso de alunos em Excel</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-slate-800 border-slate-700 cursor-pointer hover:border-cyan-500 transition-colors" onClick={() => setLocation("/admin/reports/payments")}>
+                <CardContent className="pt-6">
+                  <h4 className="text-white font-semibold mb-2">Relatório de Pagamentos</h4>
+                  <p className="text-sm text-slate-400">Exportar dados de pagamentos em Excel</p>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
         </Tabs>

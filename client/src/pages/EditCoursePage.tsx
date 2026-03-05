@@ -5,15 +5,25 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { useLocation, useRoute } from "wouter";
-import { Loader2, Save, ArrowLeft } from "lucide-react";
+import { Loader2, Save, ArrowLeft, Plus, Edit2, BookOpen, Video } from "lucide-react";
 
 export default function EditCoursePage() {
   const [, params] = useRoute("/admin/courses/:courseId/edit");
   const [, setLocation] = useLocation();
   const courseId = params?.courseId ? parseInt(params.courseId) : null;
+  const [isLessonDialogOpen, setIsLessonDialogOpen] = useState(false);
+  const [editingLesson, setEditingLesson] = useState<any>(null);
+  const [lessonFormData, setLessonFormData] = useState({
+    title: "",
+    type: "text" as "text" | "video" | "live",
+    content: "",
+    videoUrl: "",
+    liveUrl: "",
+  });
 
   const [formData, setFormData] = useState({
     title: "",
@@ -32,7 +42,28 @@ export default function EditCoursePage() {
     { enabled: !!courseId }
   );
 
-  // const { data: professors = [] } = trpc.admin.getProfessors.useQuery();
+  const { data: lessons = [], refetch: refetchLessons } = trpc.lessons.getByCourse.useQuery(
+    { courseId: courseId || 0 },
+    { enabled: !!courseId }
+  );
+
+  const createLessonMutation = trpc.lessons.create.useMutation({
+    onSuccess: () => {
+      toast.success("Aula criada com sucesso!");
+      resetLessonForm();
+      refetchLessons();
+    },
+    onError: (error: any) => toast.error(`Erro: ${error?.message}`),
+  });
+
+  const updateLessonMutation = trpc.lessons.update.useMutation({
+    onSuccess: () => {
+      toast.success("Aula atualizada com sucesso!");
+      resetLessonForm();
+      refetchLessons();
+    },
+    onError: (error: any) => toast.error(`Erro: ${error?.message}`),
+  });
 
   const updateCourseMutation = trpc.courses.update.useMutation({
     onSuccess: () => {
@@ -41,6 +72,52 @@ export default function EditCoursePage() {
     },
     onError: (error: any) => toast.error(`Erro: ${error?.message || 'Erro desconhecido'}`),
   });
+
+  const resetLessonForm = () => {
+    setLessonFormData({ title: "", type: "text", content: "", videoUrl: "", liveUrl: "" });
+    setEditingLesson(null);
+    setIsLessonDialogOpen(false);
+  };
+
+  const handleLessonSubmit = () => {
+    if (!lessonFormData.title || !courseId) {
+      toast.error("Preencha os campos obrigatórios");
+      return;
+    }
+
+    if (editingLesson) {
+      updateLessonMutation.mutate({
+        lessonId: editingLesson.id,
+        title: lessonFormData.title,
+        type: lessonFormData.type,
+        content: lessonFormData.type === "text" ? lessonFormData.content : undefined,
+        videoUrl: lessonFormData.type === "video" ? lessonFormData.videoUrl : undefined,
+        liveUrl: lessonFormData.type === "live" ? lessonFormData.liveUrl : undefined,
+      });
+    } else {
+      createLessonMutation.mutate({
+        courseId,
+        title: lessonFormData.title,
+        type: lessonFormData.type,
+        content: lessonFormData.type === "text" ? lessonFormData.content : undefined,
+        videoUrl: lessonFormData.type === "video" ? lessonFormData.videoUrl : undefined,
+        liveUrl: lessonFormData.type === "live" ? lessonFormData.liveUrl : undefined,
+        order: (lessons?.length || 0) + 1,
+      });
+    }
+  };
+
+  const handleEditLesson = (lesson: any) => {
+    setEditingLesson(lesson);
+    setLessonFormData({
+      title: lesson.title,
+      type: lesson.type,
+      content: lesson.content || "",
+      videoUrl: lesson.videoUrl || "",
+      liveUrl: lesson.liveUrl || "",
+    });
+    setIsLessonDialogOpen(true);
+  };
 
   useEffect(() => {
     if (course) {
@@ -101,7 +178,7 @@ export default function EditCoursePage() {
             </Button>
             <div>
               <h1 className="text-2xl font-bold text-white">Editar Curso</h1>
-              <p className="text-slate-400">Atualize os dados do curso</p>
+              <p className="text-slate-400">Atualize os dados do curso e suas aulas</p>
             </div>
           </div>
         </div>
@@ -208,6 +285,153 @@ export default function EditCoursePage() {
                     placeholder="https://youtube.com/watch?v=..."
                     className="bg-slate-700 border-slate-600 text-white"
                   />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-slate-800 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Aulas do Curso</CardTitle>
+                <CardDescription className="text-slate-400">Gerenciar aulas (vídeo, texto, ao vivo)</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Dialog open={isLessonDialogOpen} onOpenChange={setIsLessonDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button
+                      onClick={() => resetLessonForm()}
+                      className="w-full bg-cyan-600 hover:bg-cyan-700"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Nova Aula
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-slate-800 border-slate-700">
+                    <DialogHeader>
+                      <DialogTitle className="text-white">
+                        {editingLesson ? "Editar Aula" : "Nova Aula"}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="lesson-title" className="text-white">
+                          Título *
+                        </Label>
+                        <Input
+                          id="lesson-title"
+                          value={lessonFormData.title}
+                          onChange={(e) => setLessonFormData({ ...lessonFormData, title: e.target.value })}
+                          placeholder="Título da aula"
+                          className="bg-slate-700 border-slate-600 text-white"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="lesson-type" className="text-white">
+                          Tipo de Aula
+                        </Label>
+                        <Select value={lessonFormData.type} onValueChange={(value: any) => setLessonFormData({ ...lessonFormData, type: value })}>
+                          <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-slate-700 border-slate-600">
+                            <SelectItem value="text" className="text-white">Texto</SelectItem>
+                            <SelectItem value="video" className="text-white">Vídeo (YouTube)</SelectItem>
+                            <SelectItem value="live" className="text-white">Ao Vivo (Google Meet)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {lessonFormData.type === "text" && (
+                        <div className="space-y-2">
+                          <Label htmlFor="lesson-content" className="text-white">
+                            Conteúdo
+                          </Label>
+                          <Textarea
+                            id="lesson-content"
+                            value={lessonFormData.content}
+                            onChange={(e) => setLessonFormData({ ...lessonFormData, content: e.target.value })}
+                            placeholder="Conteúdo da aula..."
+                            className="bg-slate-700 border-slate-600 text-white"
+                            rows={4}
+                          />
+                        </div>
+                      )}
+
+                      {lessonFormData.type === "video" && (
+                        <div className="space-y-2">
+                          <Label htmlFor="lesson-video" className="text-white">
+                            URL do Vídeo (YouTube)
+                          </Label>
+                          <Input
+                            id="lesson-video"
+                            value={lessonFormData.videoUrl}
+                            onChange={(e) => setLessonFormData({ ...lessonFormData, videoUrl: e.target.value })}
+                            placeholder="https://youtube.com/watch?v=..."
+                            className="bg-slate-700 border-slate-600 text-white"
+                          />
+                        </div>
+                      )}
+
+                      {lessonFormData.type === "live" && (
+                        <div className="space-y-2">
+                          <Label htmlFor="lesson-live" className="text-white">
+                            URL da Aula ao Vivo (Google Meet)
+                          </Label>
+                          <Input
+                            id="lesson-live"
+                            value={lessonFormData.liveUrl}
+                            onChange={(e) => setLessonFormData({ ...lessonFormData, liveUrl: e.target.value })}
+                            placeholder="https://meet.google.com/..."
+                            className="bg-slate-700 border-slate-600 text-white"
+                          />
+                        </div>
+                      )}
+
+                      <Button
+                        onClick={handleLessonSubmit}
+                        disabled={createLessonMutation.isPending || updateLessonMutation.isPending}
+                        className="w-full bg-cyan-600 hover:bg-cyan-700"
+                      >
+                        {editingLesson ? "Atualizar" : "Criar"} Aula
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {lessons && lessons.length > 0 ? (
+                    lessons.map((lesson: any) => (
+                      <Card key={lesson.id} className="bg-slate-700 border-slate-600">
+                        <CardContent className="pt-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 flex-1">
+                              {lesson.type === "video" ? (
+                                <Video className="w-4 h-4 text-cyan-500" />
+                              ) : (
+                                <BookOpen className="w-4 h-4 text-cyan-500" />
+                              )}
+                              <div>
+                                <p className="text-white text-sm font-medium">{lesson.title}</p>
+                                <p className="text-xs text-slate-400">
+                                  {lesson.type === "text" ? "Texto" : lesson.type === "video" ? "Vídeo" : "Ao Vivo"}
+                                </p>
+                              </div>
+                            </div>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleEditLesson(lesson)}
+                              className="text-cyan-500 hover:bg-slate-600"
+                            >
+                              <Edit2 className="w-3 h-3" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))
+                  ) : (
+                    <p className="text-sm text-slate-400 text-center py-4">Nenhuma aula criada ainda</p>
+                  )}
                 </div>
               </CardContent>
             </Card>

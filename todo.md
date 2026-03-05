@@ -119,3 +119,8 @@
 - [x] Otimização de performance
 - [x] Backup automático de dados
 - [x] Guias finais de deployment
+
+## Correções Identificadas (Sessão Atual)
+- [x] Página de Gerenciamento de Usuários mostrando "em desenvolvimento"
+- [x] Impossibilidade de incluir aulas dentro dos cursos
+- [x] Integração entre CourseView e LessonsManagement
