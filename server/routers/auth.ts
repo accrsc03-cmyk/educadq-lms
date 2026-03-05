@@ -2,6 +2,8 @@ import { TRPCError } from "@trpc/server";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getUserById, updateUserRole } from "../db";
 import { z } from "zod";
+import { getSessionCookieOptions } from "../_core/cookies";
+import { COOKIE_NAME } from "../../shared/const";
 
 export const authRouter = router({
   /**
@@ -59,9 +61,6 @@ export const authRouter = router({
    * Logout
    */
   logout: publicProcedure.mutation(({ ctx }) => {
-    const { getSessionCookieOptions } = require("../_core/cookies");
-    const { COOKIE_NAME } = require("../../shared/const");
-
     const cookieOptions = getSessionCookieOptions(ctx.req);
     ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
 

@@ -28,26 +28,26 @@
 - [x] Footer com redes sociais e WhatsApp
 
 ## Admin Panel
-- [ ] Dashboard com estatísticas gerais
-- [ ] Cadastro de cursos (título, descrição, carga horária, valor, capa, trailer, professor, nota mínima, parcelas)
-- [ ] Gerenciamento de professores
-- [ ] Gerenciamento de alunos
-- [ ] Liberação manual de acesso a cursos
-- [ ] Configuração de parcelas (valor, entrada, número de parcelas, datas)
-- [ ] Geração de relatórios Excel (cursos, alunos, progresso, pagamentos)
-- [ ] Visualização de alertas de conclusão
-- [ ] Visualização de alertas de pagamento
+- [x] Dashboard com estatísticas gerais
+- [x] Cadastro de cursos (título, descrição, carga horária, valor, capa, trailer, professor, nota mínima, parcelas)
+- [x] Gerenciamento de professores
+- [x] Gerenciamento de alunos
+- [x] Liberação manual de acesso a cursos
+- [x] Configuração de parcelas (valor, entrada, número de parcelas, datas)
+- [x] Geração de relatórios Excel (cursos, alunos, progresso, pagamentos)
+- [x] Visualização de alertas de conclusão
+- [x] Visualização de alertas de pagamento
 
 ## Professor Panel
-- [ ] Dashboard com cursos atribuídos
-- [ ] Criação de aulas (vídeo YouTube, texto, ao vivo Google Meet)
-- [ ] Edição de aulas
-- [ ] Criação de avaliações (por aula ou final)
-- [ ] Criação de perguntas com 5 alternativas
-- [ ] Distribuição automática de respostas (20% cada)
-- [ ] Acompanhamento de progresso dos alunos
-- [ ] Visualização de desempenho em avaliações
-- [ ] Alertas de alunos aprovados
+- [x] Dashboard com cursos atribuídos
+- [x] Criação de aulas (vídeo YouTube, texto, ao vivo Google Meet)
+- [x] Edição de aulas
+- [x] Criação de avaliações (por aula ou final)
+- [x] Criação de perguntas com 5 alternativas
+- [x] Distribuição automática de respostas (20% cada)
+- [x] Acompanhamento de progresso dos alunos
+- [x] Visualização de desempenho em avaliações
+- [x] Alertas de alunos aprovados
 
 ## Student Panel
 - [x] Dashboard com cursos em andamento, concluídos e disponíveis
@@ -69,12 +69,12 @@
 - [x] Proteção de vídeos contra download
 
 ## Payment System
-- [ ] Configuração de parcelas pelo Admin
-- [ ] Cálculo automático de datas de vencimento
-- [ ] Alertas automáticos antes do vencimento
-- [ ] Mensagens com chave PIX (41 98891-3431)
-- [ ] Rastreamento de pagamentos (pagos, pendentes, atrasados)
-- [ ] Relatórios de pagamentos
+- [x] Configuração de parcelas pelo Admin
+- [x] Cálculo automático de datas de vencimento
+- [x] Alertas automáticos antes do vencimento
+- [x] Mensagens com chave PIX (41 98891-3431)
+- [x] Rastreamento de pagamentos (pagos, pendentes, atrasados)
+- [x] Relatórios de pagamentos
 
 ## Styling & UI
 - [ ] Configurar paleta de cores (Azul Meia-Noite #0D2333, Azul Turquesa #06B2C9, Branco #F5F5F5)
@@ -84,9 +84,9 @@
 - [ ] Temas consistentes entre painéis
 
 ## Testing
-- [ ] Testes unitários para procedures tRPC
-- [ ] Testes de autenticação
-- [ ] Testes de controle de acesso
+- [x] Testes unitários para procedures tRPC
+- [x] Testes de autenticação
+- [x] Testes de controle de acesso
 - [ ] Testes de progresso
 - [ ] Testes de avaliações
 

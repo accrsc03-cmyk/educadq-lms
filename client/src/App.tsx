@@ -5,12 +5,31 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProfessorDashboard from "./pages/ProfessorDashboard";
+import StudentDashboard from "./pages/StudentDashboard";
+import CourseView from "./pages/CourseView";
+import AssessmentView from "./pages/AssessmentView";
+import PaymentPage from "./pages/PaymentPage";
+import SettingsPage from "./pages/SettingsPage";
+import LessonEditor from "./pages/LessonEditor";
+import ReportsPage from "./pages/ReportsPage";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/admin"} component={AdminDashboard} />
+      <Route path={"/admin/reports/:reportType"} component={ReportsPage} />
+      <Route path={"/professor"} component={ProfessorDashboard} />
+      <Route path={"/professor/lessons/new"} component={LessonEditor} />
+      <Route path={"/professor/courses/:courseId/lessons"} component={LessonEditor} />
+      <Route path={"/student"} component={StudentDashboard} />
+      <Route path={"/courses/:courseId"} component={CourseView} />
+      <Route path={"/assessments/:assessmentId"} component={AssessmentView} />
+      <Route path={"/payments"} component={PaymentPage} />
+      <Route path={"/settings"} component={SettingsPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

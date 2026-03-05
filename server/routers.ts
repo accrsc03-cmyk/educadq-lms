@@ -8,21 +8,19 @@ import { lessonsRouter } from "./routers/lessons";
 import { progressRouter } from "./routers/progress";
 import { paymentsRouter } from "./routers/payments";
 import { assessmentsRouter } from "./routers/assessments";
+import { adminRouter } from "./routers/admin";
+import { professorRouter } from "./routers/professor";
 
 export const appRouter = router({
   system: systemRouter,
-  
   auth: authRouter,
-  
   courses: coursesRouter,
-  
   lessons: lessonsRouter,
-  
   progress: progressRouter,
-  
   payments: paymentsRouter,
-  
   assessments: assessmentsRouter,
+  admin: adminRouter,
+  professor: professorRouter,
 });
 
 export type AppRouter = typeof appRouter;
