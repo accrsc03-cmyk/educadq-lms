@@ -1,7 +1,4 @@
-/**
- * Email Service for EducaDQ
- * Handles sending emails for notifications, alerts, and reminders
- */
+import nodemailer from "nodemailer";
 
 interface EmailOptions {
   to: string;
@@ -10,20 +7,88 @@ interface EmailOptions {
   text?: string;
 }
 
+let transporter: nodemailer.Transporter | null = null;
+
+/**
+ * Initialize email transporter based on environment variables
+ */
+function getTransporter(): nodemailer.Transporter {
+  if (transporter) return transporter;
+
+  const emailProvider = process.env.EMAIL_PROVIDER || "console";
+
+  if (emailProvider === "sendgrid") {
+    transporter = nodemailer.createTransport({
+      host: "smtp.sendgrid.net",
+      port: 587,
+      secure: false,
+      auth: {
+        user: "apikey",
+        pass: process.env.SENDGRID_API_KEY || "",
+      },
+    });
+  } else if (emailProvider === "aws-ses") {
+    try {
+      const AWS = require("aws-sdk");
+      const ses = new AWS.SES({
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION || "us-east-1",
+      });
+
+      transporter = nodemailer.createTransport({
+        SES: { ses, aws: AWS },
+      } as any);
+    } catch (error) {
+      console.warn("[Email] AWS SDK not available, falling back to console");
+      transporter = nodemailer.createTransport({
+        streamTransport: true,
+        newline: "unix",
+        buffer: true,
+      });
+    }
+  } else if (emailProvider === "smtp") {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || "587"),
+      secure: process.env.SMTP_SECURE === "true",
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+  } else {
+    // Fallback to console logging for development
+    transporter = nodemailer.createTransport({
+      streamTransport: true,
+      newline: "unix",
+      buffer: true,
+    });
+  }
+
+  return transporter;
+}
+
 /**
  * Send email notification
- * In production, integrate with SendGrid, AWS SES, or similar service
  */
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
   try {
-    // TODO: Integrate with email service provider
-    // For now, log to console
-    console.log("[Email Service] Sending email to:", options.to);
-    console.log("[Email Service] Subject:", options.subject);
-    console.log("[Email Service] HTML:", options.html);
+    const transporter = getTransporter();
+    const fromEmail = process.env.EMAIL_FROM || "noreply@educadq.com";
+
+    const result = await transporter.sendMail({
+      from: fromEmail,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+      text: options.text,
+    });
+
+    console.log(`[Email] Sent to ${options.to}: ${options.subject}`);
     return true;
   } catch (error) {
-    console.error("[Email Service] Error sending email:", error);
+    console.error("[Email] Failed to send:", error);
     return false;
   }
 }

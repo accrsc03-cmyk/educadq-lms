@@ -10,20 +10,20 @@
 - [x] Procedures tRPC para avaliações
 - [x] Procedures tRPC para progresso
 - [x] Procedures tRPC para pagamentos
-- [ ] Procedures tRPC para relatórios
-- [ ] Procedures tRPC para notificações
+- [x] Procedures tRPC para relatórios
+- [x] Procedures tRPC para notificações
 
 ## Authentication & Security
 - [x] Sistema de autenticação com 3 níveis (Admin, Professor, Aluno)
 - [x] Controle de sessão anti-compartilhamento (detecção de IP/dispositivo)
 - [x] Bloqueio de sessões paralelas
-- [ ] Proteção contra brute force
-- [ ] Criptografia de senhas
+- [x] Proteção contra brute force (Rate Limiting)
+- [x] Criptografia de senhas (PBKDF2)
 
 ## Landing Page & Public
 - [x] Landing page com catálogo de cursos
 - [x] Cards de cursos (capa, descrição, carga horária, valor, trailer)
-- [ ] Sistema de recomendação (cursos relacionados, populares, não adquiridos)
+- [x] Sistema de recomendação (cursos relacionados, populares, não adquiridos)
 - [x] Botão "Tenho Acesso" / "Comprar"
 - [x] Footer com redes sociais e WhatsApp
 
@@ -54,10 +54,10 @@
 - [x] Barra de progresso por curso
 - [x] Bloqueio de aulas futuras até conclusão da anterior
 - [x] Visualização de aulas (vídeo, texto, ao vivo)
-- [ ] Download de materiais (Google Drive)
-- [ ] Realização de avaliações
-- [ ] Visualização de notas
-- [ ] Sistema de recomendação de cursos
+- [x] Download de materiais (Google Drive)
+- [x] Realização de avaliações
+- [x] Visualização de notas
+- [x] Sistema de recomendação de cursos
 - [x] Acompanhamento de progresso
 
 ## Content Protection
@@ -87,16 +87,16 @@
 - [x] Testes unitários para procedures tRPC
 - [x] Testes de autenticação
 - [x] Testes de controle de acesso
-- [ ] Testes de progresso
-- [ ] Testes de avaliações
+- [x] Testes de progresso
+- [x] Testes de avaliações
 
 ## Documentation & Deployment
-- [ ] README.md com instruções de instalação
-- [ ] Guia de configuração do Supabase
-- [ ] Guia de deploy no Vercel
-- [ ] Documentação da API
-- [ ] Guia de variáveis de ambiente
+- [x] README.md com instruções de instalação
+- [x] Guia de configuração do Supabase
+- [x] Guia de deploy no Vercel
+- [x] Documentação da API
+- [x] Guia de variáveis de ambiente
 
 ## Final Delivery
-- [ ] Checkpoint final do projeto
-- [ ] Entrega dos arquivos ao usuário
+- [x] Checkpoint final do projeto
+- [x] Entrega dos arquivos ao usuário

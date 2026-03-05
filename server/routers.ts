@@ -10,6 +10,7 @@ import { paymentsRouter } from "./routers/payments";
 import { assessmentsRouter } from "./routers/assessments";
 import { adminRouter } from "./routers/admin";
 import { professorRouter } from "./routers/professor";
+import { notificationsRouter } from "./routers/notifications";
 
 export const appRouter = router({
   system: systemRouter,
@@ -21,6 +22,7 @@ export const appRouter = router({
   assessments: assessmentsRouter,
   admin: adminRouter,
   professor: professorRouter,
+  notifications: notificationsRouter,
 });
 
 export type AppRouter = typeof appRouter;
