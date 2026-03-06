@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm build",
+  "buildCommand": "pnpm build && mkdir -p api && cp dist/index.js api/index.js",
   "outputDirectory": "dist",
   "devCommand": "pnpm dev",
   "env": {
@@ -15,7 +15,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api/index.js"
+      "destination": "/api"
     }
   ]
 }
